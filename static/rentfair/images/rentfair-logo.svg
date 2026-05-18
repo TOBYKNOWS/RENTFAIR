@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">RentFair Homes logo</title>
+  <desc id="desc">Stylized RF monogram with a location pin inside the R.</desc>
+  <rect width="512" height="512" rx="96" fill="#FFFFFF"/>
+  <path d="M98 154C98 145.163 105.163 138 114 138H178.5C215.227 138 245 167.773 245 204.5C245 232.671 227.49 256.74 202.782 266.421L246.318 350.653C251.819 361.297 244.096 374 232.118 374H114C105.163 374 98 366.837 98 358V154Z" fill="#20292B"/>
+  <path d="M164.5 169C200.674 169 230 198.326 230 234.5C230 270.674 164.5 348 164.5 348C164.5 348 99 270.674 99 234.5C99 198.326 128.326 169 164.5 169Z" fill="#FFFFFF"/>
+  <path d="M165 209C185.435 209 202 225.565 202 246V271H178V247C178 239.82 172.18 234 165 234C157.82 234 152 239.82 152 247V271H128V246C128 225.565 144.565 209 165 209Z" fill="#21B891"/>
+  <rect x="261" y="138" width="136" height="64" rx="8" fill="#20292B"/>
+  <rect x="261" y="236" width="65" height="138" rx="8" fill="#20292B"/>
+  <path d="M343 275C343 253.461 360.461 236 382 236H397V299H382C360.461 299 343 296.539 343 275Z" fill="#20292B"/>
+</svg>

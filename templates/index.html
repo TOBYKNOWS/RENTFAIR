@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentFair Homes – Verified Homes. Fair Prices.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="static/rentfair/images/rentfair-logo.svg">
+<link rel="stylesheet" href="static/rentfair/css/styles.css?v=gallery-3">
+</head>
+<body class="font-body bg-white text-slate-900 antialiased">
+
+{% include "partials/navbar.html" %}
+
+<!-- PAGES CONTAINER -->
+<div id="app" class="pt-16">
+
+  <!-- ===== HOME PAGE ===== -->
+  <div id="page-home" class="page">
+
+    <!-- Hero -->
+    <section class="hero-section relative overflow-hidden bg-white min-h-[86vh] flex items-center border-b border-slate-100">
+      <div class="absolute inset-0 mature-hero-bg"></div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
+        <div class="grid lg:grid-cols-[1.02fr_.98fr] gap-14 items-center">
+          <!-- Hero Content -->
+          <div class="hero-content max-w-2xl">
+            <div class="hero-kicker inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-7">
+              <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+              Ekiti rentals now live · Nationwide sales & land
+            </div>
+            <div class="mobile-hero-showcase lg:hidden">
+              <div class="mobile-hero-frame">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=82" alt="Verified modern RentFair home" class="mobile-hero-main-img">
+                <div class="mobile-hero-price">
+                  <span>Luxury Duplex</span>
+                  <strong>₦85M</strong>
+                </div>
+                <div class="mobile-hero-mini-card">
+                  <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&q=82" alt="Ekiti verified rental">
+                  <div>
+                    <span>Verified</span>
+                    <p>2-Bed Flat · Ado-Ekiti</p>
+                    <strong>₦400k/yr</strong>
+                  </div>
+                </div>
+                <div class="mobile-hero-trust">
+                  <span>Trust score</span>
+                  <strong>High</strong>
+                </div>
+              </div>
+            </div>
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-[4.35rem] font-800 text-slate-950 leading-[1.02] tracking-[-0.055em] mb-6">
+              Find verified homes, land, and rentals without the usual stress.
+            </h1>
+            <p class="text-slate-600 text-lg sm:text-xl leading-8 mb-9 max-w-xl">
+              Rent safely in Ekiti State, buy homes and land across Nigeria, and compare trusted listings with clear pricing before you contact anyone.
+            </p>
+
+            <div class="hidden mb-6 rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-[0_18px_50px_rgba(15,23,42,0.12)]">
+              <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900&q=80" alt="Verified RentFair home" class="h-48 w-full object-cover">
+              <div class="p-4 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="font-display font-800 text-slate-950 text-base truncate">Verified home in Ado-Ekiti</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Direct owner contact</p>
+                </div>
+                <span class="shrink-0 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">Trusted</span>
+              </div>
+            </div>
+
+            <!-- Search Card -->
+            <div class="search-shell bg-white rounded-[1.65rem] border border-slate-200 shadow-[0_24px_70px_rgba(15,23,42,0.10)] p-2 overflow-hidden">
+              <!-- Tabs -->
+              <div class="grid grid-cols-3 rounded-2xl bg-slate-50 p-1">
+                <button onclick="setHeroTab('rent')" id="hero-tab-rent" class="hero-tab active rounded-xl py-3 text-sm font-semibold text-center transition-all">Rent</button>
+                <button onclick="setHeroTab('buy')" id="hero-tab-buy" class="hero-tab rounded-xl py-3 text-sm font-semibold text-center transition-all">Buy</button>
+                <button onclick="setHeroTab('land')" id="hero-tab-land" class="hero-tab rounded-xl py-3 text-sm font-semibold text-center transition-all">Land</button>
+              </div>
+
+              <!-- Rent Search -->
+              <div id="hero-search-rent" class="hero-search p-4">
+                <div class="grid sm:grid-cols-[1fr_1fr_1fr_auto] gap-3">
+                  <select class="premium-input"><option value="">Select area in Ekiti</option><option>Ado-Ekiti</option><option>Basiri</option><option>Ajilosun</option><option>Odo-Ado</option><option>Iworoko</option><option>Fajuyi</option><option>Ikere</option><option>Iyin</option><option>Ilawe</option></select>
+                  <select class="premium-input"><option>Property type</option><option>Self-contain</option><option>Mini flat</option><option>1 Bedroom</option><option>2 Bedroom</option><option>3 Bedroom</option><option>Bungalow</option></select>
+                  <select class="premium-input"><option>Price range</option><option>Under ₦200k/yr</option><option>₦200k–₦400k/yr</option><option>₦400k–₦800k/yr</option><option>Above ₦800k/yr</option></select>
+                  <button onclick="showPage('listings','rent')" class="btn-primary px-6 py-3 text-sm whitespace-nowrap rounded-xl">Search</button>
+                </div>
+                <p class="text-xs text-amber-700 mt-3 px-1 flex items-center gap-1.5 font-semibold">Rentals currently available in Ekiti State only.</p>
+              </div>
+
+              <!-- Buy Search -->
+              <div id="hero-search-buy" class="hero-search hidden p-4">
+                <div class="grid sm:grid-cols-[1fr_1fr_1fr_auto] gap-3">
+                  <select class="premium-input"><option>Select state</option><option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option><option>Oyo</option><option>Ekiti</option><option>Ogun</option><option>Kano</option><option>Anambra</option></select>
+                  <select class="premium-input"><option>Property type</option><option>Apartment</option><option>Duplex</option><option>Bungalow</option><option>Terrace</option><option>Commercial</option></select>
+                  <select class="premium-input"><option>Bedrooms</option><option>1+</option><option>2+</option><option>3+</option><option>4+</option><option>5+</option></select>
+                  <button onclick="showPage('listings','buy')" class="btn-primary px-6 py-3 text-sm whitespace-nowrap rounded-xl">Search</button>
+                </div>
+              </div>
+
+              <!-- Land Search -->
+              <div id="hero-search-land" class="hero-search hidden p-4">
+                <div class="grid sm:grid-cols-[1fr_1fr_1fr_auto] gap-3">
+                  <select class="premium-input"><option>Select state</option><option>Lagos</option><option>Abuja (FCT)</option><option>Rivers</option><option>Oyo</option><option>Ekiti</option></select>
+                  <select class="premium-input"><option>Land type</option><option>Residential</option><option>Commercial</option><option>Estate Plot</option><option>Farmland</option></select>
+                  <select class="premium-input"><option>Document type</option><option>C of O</option><option>Survey Plan</option><option>Governor's Consent</option><option>Deed</option></select>
+                  <button onclick="showPage('listings','land')" class="btn-primary px-6 py-3 text-sm whitespace-nowrap rounded-xl">Search</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="hero-stats grid grid-cols-3 gap-5 mt-9 max-w-xl">
+              <div><p class="font-display font-800 text-slate-950 text-2xl">2,400+</p><p class="text-slate-500 text-xs font-semibold mt-1">Verified listings</p></div>
+              <div class="border-l border-slate-200 pl-5"><p class="font-display font-800 text-slate-950 text-2xl">36</p><p class="text-slate-500 text-xs font-semibold mt-1">States covered</p></div>
+              <div class="border-l border-slate-200 pl-5"><p class="font-display font-800 text-slate-950 text-2xl">98%</p><p class="text-slate-500 text-xs font-semibold mt-1">Satisfaction rate</p></div>
+            </div>
+          </div>
+
+          <!-- Premium visual stack -->
+          <div class="hidden lg:block relative min-h-[640px]">
+            <div class="absolute inset-0 rounded-[2.4rem] bg-gradient-to-br from-emerald-50 via-white to-blue-50 border border-slate-100 shadow-[0_30px_90px_rgba(15,23,42,0.08)]"></div>
+            <div class="absolute top-8 left-8 right-8 rounded-[2rem] overflow-hidden shadow-[0_24px_70px_rgba(15,23,42,0.14)] bg-white">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80" alt="Verified modern home" class="h-80 w-full object-cover">
+              <div class="p-5 flex items-center justify-between">
+                <div><p class="font-display font-800 text-xl text-slate-950">Luxury Duplex</p><p class="text-sm text-slate-500 mt-1">Lekki Phase 1, Lagos</p></div>
+                <div class="text-right"><p class="font-display font-800 text-emerald-600 text-xl">₦85M</p><p class="text-xs text-slate-400 font-semibold">Verified sale</p></div>
+              </div>
+            </div>
+            <div class="absolute left-0 bottom-24 w-72 rounded-[1.6rem] overflow-hidden bg-white shadow-[0_20px_60px_rgba(15,23,42,0.16)] border border-white">
+              <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&q=80" alt="Ekiti rental" class="h-40 w-full object-cover">
+              <div class="p-4"><span class="badge-verified">Verified</span><p class="font-display font-800 text-slate-950 mt-2">2-Bed Flat · Ado-Ekiti</p><p class="text-emerald-600 font-bold">₦400,000/yr</p></div>
+            </div>
+            <div class="absolute right-0 bottom-8 w-80 rounded-[1.6rem] bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.14)] border border-slate-100">
+              <div class="flex items-center justify-between mb-4"><p class="font-display font-800 text-slate-950">Trust score</p><span class="text-xs font-bold text-emerald-700 bg-emerald-50 rounded-full px-3 py-1">High</span></div>
+              <div class="space-y-3 text-sm text-slate-600">
+                <div class="flex justify-between"><span>Owner verified</span><strong class="text-slate-900">Yes</strong></div>
+                <div class="flex justify-between"><span>Price insight</span><strong class="text-slate-900">Fair</strong></div>
+                <div class="flex justify-between"><span>Documents</span><strong class="text-slate-900">Checked</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-strip bg-emerald-600 py-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="trust-marquee-track flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-white text-sm">
+          <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 3.5V8c0 3.3 2.5 5.7 6 7 3.5-1.3 6-3.7 6-7V3.5L8 1z" fill="white" opacity=".3"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified Listings</div>
+          <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 3v4l3 1.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No Hidden Fees</div>
+          <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2v12" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5"/></svg> Fair Price Insights</div>
+          <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm1 9.5H7v-5h2v5zm0-6H7V4h2v1z" fill="white"/></svg> Direct Owner Contact</div>
+          <div class="trust-marquee-copy flex items-center gap-2" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 3.5V8c0 3.3 2.5 5.7 6 7 3.5-1.3 6-3.7 6-7V3.5L8 1z" fill="white" opacity=".3"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified Listings</div>
+          <div class="trust-marquee-copy flex items-center gap-2" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 3v4l3 1.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No Hidden Fees</div>
+          <div class="trust-marquee-copy flex items-center gap-2" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2v12" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5"/></svg> Fair Price Insights</div>
+          <div class="trust-marquee-copy flex items-center gap-2" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm1 9.5H7v-5h2v5zm0-6H7V4h2v1z" fill="white"/></svg> Direct Owner Contact</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Listings -->
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Featured listings</h2>
+            <p class="text-slate-500 mt-1">Handpicked verified properties across Nigeria</p>
+          </div>
+          <a href="#" onclick="showPage('listings','rent')" class="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1">View all <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <!-- Featured cards injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Ekiti Areas -->
+    <section class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium px-3 py-1.5 rounded-full mb-3">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.5 3 3.3.5-2.4 2.3.6 3.3L6 8.5l-3 1.6.6-3.3L1.2 4.5l3.3-.5z" fill="currentColor"/></svg>
+            Ekiti Rentals
+          </div>
+          <h2 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Popular rental areas in Ekiti</h2>
+          <p class="text-slate-500 mt-1">Rentals available across these Ekiti communities</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <!-- Area cards injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Homes for Sale Section -->
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Homes for sale <span class="text-emerald-500">nationwide</span></h2>
+            <p class="text-slate-500 mt-1">Buy properties across all 36 states in Nigeria</p>
+          </div>
+          <a href="#" onclick="showPage('listings','buy')" class="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1">View all <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="homes-for-sale">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Land Listings -->
+    <section class="py-16 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Land for sale</h2>
+            <p class="text-slate-500 mt-1">Residential, commercial, estate plots & farmland</p>
+          </div>
+          <a href="#" onclick="showPage('listings','land')" class="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1">View all <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="land-listings">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <h2 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Why choose RentFair Homes?</h2>
+          <p class="text-slate-500 mt-2 max-w-xl mx-auto">We're building Nigeria's most trusted property marketplace — one verified listing at a time.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="trust-card p-6 rounded-2xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L3 5.5V11c0 4.4 3.3 7.6 8 9 4.7-1.4 8-4.6 8-9V5.5L11 2z" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 11l3 3 5-5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Verified Listings</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Every listing is reviewed and verified before going live. No fake properties, no ghost listings.</p>
+          </div>
+          <div class="trust-card p-6 rounded-2xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3a8 8 0 100 16A8 8 0 0011 3z" stroke="#2563EB" stroke-width="1.5"/><path d="M8 11l3 3 4-5" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Transparent Pricing</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">See full move-in cost breakdowns including rent, caution fee, agency fees — before you visit.</p>
+          </div>
+          <div class="trust-card p-6 rounded-2xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2 4 4.5.6-3.3 3.2.8 4.5L11 13l-4 2.3.8-4.5L4.5 7.6 9 7z" stroke="#C6A96B" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Fair Price Insights</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Know if a listing is priced fairly. We show how it compares to the area average in real time.</p>
+          </div>
+          <div class="trust-card p-6 rounded-2xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v7M11 14.5v.5" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/><path d="M11 2a9 9 0 100 18A9 9 0 0011 2z" stroke="#EF4444" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 mb-2">Report Fake Listings</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">See something suspicious? Report it directly. We investigate and remove fraudulent listings fast.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-slate-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <h2 class="font-display font-700 text-2xl sm:text-3xl">How RentFair works</h2>
+          <p class="text-slate-400 mt-2">From search to move-in, we've got you covered.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="how-step text-center p-6">
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-display font-700 text-emerald-400 text-xl">01</span>
+            </div>
+            <h3 class="font-semibold mb-2">Search</h3>
+            <p class="text-slate-400 text-sm">Filter by location, price, type, and more.</p>
+          </div>
+          <div class="how-step text-center p-6">
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-display font-700 text-emerald-400 text-xl">02</span>
+            </div>
+            <h3 class="font-semibold mb-2">Compare</h3>
+            <p class="text-slate-400 text-sm">Use fair price insights to compare listings.</p>
+          </div>
+          <div class="how-step text-center p-6">
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-display font-700 text-emerald-400 text-xl">03</span>
+            </div>
+            <h3 class="font-semibold mb-2">Contact</h3>
+            <p class="text-slate-400 text-sm">Reach owners/agents directly via WhatsApp or call.</p>
+          </div>
+          <div class="how-step text-center p-6">
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-display font-700 text-emerald-400 text-xl">04</span>
+            </div>
+            <h3 class="font-semibold mb-2">Inspect</h3>
+            <p class="text-slate-400 text-sm">Schedule a physical inspection before committing.</p>
+          </div>
+          <div class="how-step text-center p-6">
+            <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span class="font-display font-700 text-emerald-400 text-xl">05</span>
+            </div>
+            <h3 class="font-semibold mb-2">Move In</h3>
+            <p class="text-slate-400 text-sm">Secure your property with no surprises.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Landlord CTA -->
+    <section class="py-20 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-emerald-50 to-blue-50 border border-emerald-100 rounded-3xl p-10 sm:p-14 text-center">
+          <div class="inline-flex items-center gap-2 bg-white border border-emerald-200 text-emerald-700 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
+            For landlords & agents
+          </div>
+          <h2 class="font-display font-700 text-2xl sm:text-4xl text-slate-900 mb-3">List your property on<br>RentFair Homes</h2>
+          <p class="text-slate-500 text-lg mb-8 max-w-lg mx-auto">Reach thousands of verified buyers and renters across Nigeria. Listing is fast, free to start, and trusted.</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button onclick="showPage('post')" class="btn-primary px-8 py-3 text-base">Post a Property — Free</button>
+            <button onclick="showPage('dashboard')" class="px-8 py-3 text-base font-medium text-slate-700 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all">View Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+          <div class="col-span-2 sm:col-span-1">
+            <div class="flex items-center gap-2 mb-4">
+              <img src="static/rentfair/images/rentfair-logo.svg" alt="RentFair Homes" class="brand-logo brand-logo-dark w-9 h-9">
+              <span class="font-display font-700 text-white">RentFair <span class="text-emerald-400">Homes</span></span>
+            </div>
+            <p class="text-slate-400 text-sm leading-relaxed mb-4">Nigeria's trusted marketplace for verified homes, rentals, and land.</p>
+            <p class="text-slate-500 text-xs">© 2025 RentFair Homes Ltd.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-sm mb-4">Explore</h4>
+            <ul class="space-y-2.5">
+              <li><a href="#" onclick="showPage('listings','rent')" class="text-sm text-slate-400 hover:text-white transition-colors">Rent in Ekiti</a></li>
+              <li><a href="#" onclick="showPage('listings','buy')" class="text-sm text-slate-400 hover:text-white transition-colors">Buy in Nigeria</a></li>
+              <li><a href="#" onclick="showPage('listings','land')" class="text-sm text-slate-400 hover:text-white transition-colors">Land for Sale</a></li>
+              <li><a href="#" onclick="showPage('favorites')" class="text-sm text-slate-400 hover:text-white transition-colors">Saved Properties</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-sm mb-4">Owners</h4>
+            <ul class="space-y-2.5">
+              <li><a href="#" onclick="showPage('post')" class="text-sm text-slate-400 hover:text-white transition-colors">Post Property</a></li>
+              <li><a href="#" onclick="showPage('dashboard')" class="text-sm text-slate-400 hover:text-white transition-colors">Dashboard</a></li>
+              <li><a href="#" class="text-sm text-slate-400 hover:text-white transition-colors">Pricing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-sm mb-4">Company</h4>
+            <ul class="space-y-2.5">
+              <li><a href="#" onclick="showPage('about')" class="text-sm text-slate-400 hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#" onclick="showPage('contact')" class="text-sm text-slate-400 hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" class="text-sm text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" class="text-sm text-slate-400 hover:text-white transition-colors">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p class="text-slate-500 text-xs">Verified Homes. Fair Prices. Rent in Ekiti. Buy Across Nigeria.</p>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-slate-400 hover:text-white transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.6a10 10 0 01-2.8.8 5 5 0 002.2-2.7c-1 .6-2 1-3.1 1.2a5 5 0 00-8.5 4.5A14.1 14.1 0 011.6 3.2a5 5 0 001.5 6.6 5 5 0 01-2.2-.6v.1a5 5 0 004 4.9 5 5 0 01-2.2.1 5 5 0 004.6 3.5A10 10 0 010 19.5a14.1 14.1 0 007.6 2.2c9.1 0 14-7.5 14-14v-.6A10 10 0 0024 4.6z"/></svg></a>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 15H9V9h2v8zm4 0h-2V9h2v8zm-3-9a1 1 0 110-2 1 1 0 010 2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== LISTINGS PAGE ===== -->
+  <div id="page-listings" class="page hidden min-h-screen bg-slate-50">
+    <!-- Filters Header -->
+    <div class="bg-white border-b border-gray-200 sticky top-16 z-30">
+      <div class="max-w-full px-4 sm:px-6 py-3">
+        <div class="listing-filter-bar flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+          <!-- Category tabs -->
+          <div class="listing-tabs flex bg-slate-100 rounded-xl p-1 shrink-0">
+            <button onclick="setListingTab('rent')" id="ltab-rent" class="listing-tab active px-4 py-1.5 text-sm font-medium rounded-lg transition-all">Rent</button>
+            <button onclick="setListingTab('buy')" id="ltab-buy" class="listing-tab px-4 py-1.5 text-sm font-medium rounded-lg transition-all">Buy</button>
+            <button onclick="setListingTab('land')" id="ltab-land" class="listing-tab px-4 py-1.5 text-sm font-medium rounded-lg transition-all">Land</button>
+          </div>
+          <!-- Filters row -->
+          <div class="flex flex-wrap gap-2 flex-1" id="filters-row">
+            <!-- injected by JS -->
+          </div>
+          <!-- Sort -->
+          <select class="listing-sort px-3 py-2 text-sm border border-gray-200 rounded-xl bg-white text-slate-700 shrink-0 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <option>Sort: Newest</option>
+            <option>Price: Low–High</option>
+            <option>Price: High–Low</option>
+            <option>Most Saved</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ekiti notice for rent -->
+    <div id="ekiti-notice" class="max-w-full px-4 sm:px-6 py-2 bg-amber-50 border-b border-amber-200">
+      <p class="text-sm text-amber-700 flex items-center gap-2">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4.5v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Rentals are currently available in Ekiti State only. <a href="#" class="underline font-medium">Learn more</a>
+      </p>
+    </div>
+
+    <!-- Listings + Map -->
+    <div class="flex h-[calc(100vh-128px)]">
+      <!-- Left: Cards -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-5" style="max-width:640px;min-width:320px">
+        <p class="text-sm text-slate-500 mb-4" id="listing-count">Showing 12 results</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="listings-grid">
+          <!-- injected by JS -->
+        </div>
+      </div>
+
+      <!-- Right: Map -->
+      <div class="hidden lg:flex flex-1 relative bg-slate-200" id="map-panel">
+        <div class="absolute inset-0 flex items-center justify-center flex-col gap-3 bg-slate-100">
+          <div class="w-16 h-16 bg-slate-200 rounded-2xl flex items-center justify-center">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 3C9 3 5 7 5 12c0 7 9 16 9 16s9-9 9-16c0-5-4-9-9-9z" stroke="#64748B" stroke-width="1.5"/><circle cx="14" cy="12" r="3" stroke="#64748B" stroke-width="1.5"/></svg>
+          </div>
+          <p class="text-slate-500 text-sm font-medium">Loading map</p>
+          <p class="text-slate-400 text-xs">Fetching property locations...</p>
+          <!-- Mock pins -->
+          <div class="absolute top-1/4 left-1/3 map-pin">
+            <div class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg cursor-pointer hover:scale-110 transition-transform">₦380k</div>
+          </div>
+          <div class="absolute top-1/3 left-1/2 map-pin">
+            <div class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg cursor-pointer hover:scale-110 transition-transform">₦250k</div>
+          </div>
+          <div class="absolute bottom-1/3 right-1/4 map-pin">
+            <div class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg cursor-pointer hover:scale-110 transition-transform">₦85M</div>
+          </div>
+          <div class="absolute bottom-1/4 left-2/5 map-pin">
+            <div class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg cursor-pointer hover:scale-110 transition-transform">₦200k</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PROPERTY DETAILS PAGE ===== -->
+  <div id="page-property" class="page hidden min-h-screen bg-white">
+    <!-- injected by JS -->
+  </div>
+
+  <!-- ===== LAND DETAILS PAGE ===== -->
+  <div id="page-land" class="page hidden min-h-screen bg-white">
+    <!-- injected by JS -->
+  </div>
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <div id="page-login" class="page hidden min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <img src="static/rentfair/images/rentfair-logo.svg" alt="RentFair Homes" class="brand-logo w-14 h-14 mx-auto mb-4">
+        <h1 class="font-display font-700 text-2xl text-slate-900">Welcome back</h1>
+        <p class="text-slate-500 mt-1">Sign in to your RentFair Homes account</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+        <!-- Tab -->
+        <div class="flex bg-slate-100 rounded-xl p-1 mb-6">
+          <button onclick="setAuthTab('login')" id="auth-tab-login" class="auth-tab active flex-1 py-2 text-sm font-medium rounded-lg transition-all">Sign In</button>
+          <button onclick="setAuthTab('register')" id="auth-tab-register" class="auth-tab flex-1 py-2 text-sm font-medium rounded-lg transition-all">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="auth-form-login">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Email or username</label>
+              <input type="text" data-login-field="email" placeholder="you@example.com or username" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+              <input type="password" data-login-field="password" placeholder="Password" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" class="rounded"> Remember me</label>
+              <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700">Forgot password?</a>
+            </div>
+            <button onclick="submitLogin()" data-login-submit class="w-full btn-primary py-3 text-base">Sign In</button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="auth-form-register" class="hidden">
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">First name</label>
+                <input type="text" data-register-field="first_name" placeholder="Ade" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Last name</label>
+                <input type="text" data-register-field="last_name" placeholder="Bamidele" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
+              <input type="email" data-register-field="email" placeholder="you@example.com" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Phone number</label>
+              <input type="tel" data-register-field="phone" placeholder="+234 800 000 0000" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">I am a...</label>
+              <select data-register-field="role" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+                <option>Tenant / Buyer</option><option>Landlord</option><option>Real Estate Agent</option><option>Property Developer</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+              <input type="password" data-register-field="password" placeholder="Min. 8 characters" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <button onclick="submitRegister()" data-register-submit class="w-full btn-primary py-3 text-base">Create Account</button>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <p class="text-xs text-slate-400">By continuing, you agree to our <a href="#" class="text-emerald-600">Terms</a> and <a href="#" class="text-emerald-600">Privacy Policy</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FAVORITES PAGE ===== -->
+  <div id="page-favorites" class="page hidden min-h-screen bg-slate-50 py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8 flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h1 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Saved properties</h1>
+          <p class="text-slate-500 mt-1">Properties you've saved for later</p>
+        </div>
+        <button onclick="showPage('dashboard')" class="btn-secondary py-2.5 px-4 text-sm">Back to dashboard</button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="favorites-grid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== POST PROPERTY PAGE ===== -->
+  <div id="page-sell" class="page hidden min-h-screen bg-slate-50 py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <h1 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Post a property</h1>
+        <p class="text-slate-500 mt-1">List your property and connect with thousands of verified buyers and renters.</p>
+      </div>
+      <div id="post-form-container"><!-- injected by JS --></div>
+    </div>
+  </div>
+
+  <!-- POST PROPERTY DUPLICATE (from nav) -->
+  <div id="page-post" class="page hidden min-h-screen bg-slate-50 py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <h1 class="font-display font-700 text-2xl sm:text-3xl text-slate-900">Post a property</h1>
+        <p class="text-slate-500 mt-1">List your property and connect with thousands of verified buyers and renters.</p>
+      </div>
+      <div id="post-form-container2"><!-- injected by JS --></div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <div id="page-dashboard" class="page hidden min-h-screen bg-slate-50 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Dashboard header -->
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center">
+            <span class="font-display font-700 text-emerald-600 text-xl" data-dashboard-initials>AB</span>
+          </div>
+          <div>
+            <h1 class="font-display font-700 text-xl text-slate-900" data-dashboard-name>Welcome</h1>
+            <p class="text-slate-500 text-sm" data-dashboard-role>Property Owner · Verified ✓</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap justify-end">
+          <button onclick="showPage('favorites')" class="btn-secondary flex items-center gap-2 py-2.5 px-4 text-sm">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 13.2S2 9.4 2 5.3A3.3 3.3 0 018 3.1a3.3 3.3 0 016 2.2c0 4.1-6 7.9-6 7.9z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Saved <span data-saved-count>0</span>
+          </button>
+          <button onclick="showPage('post')" class="btn-primary flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+            Add New Property
+          </button>
+          <button onclick="submitLogout()" class="btn-secondary py-2.5 px-4 text-sm">Log out</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+          <p class="text-xs text-slate-400 font-medium mb-1">Total Listings</p>
+          <p class="font-display font-700 text-3xl text-slate-900" data-dashboard-total-listings>0</p>
+          <p class="text-xs text-emerald-600 mt-1">↑ 2 this month</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+          <p class="text-xs text-slate-400 font-medium mb-1">Active Listings</p>
+          <p class="font-display font-700 text-3xl text-slate-900" data-dashboard-active-listings>0</p>
+          <p class="text-xs text-blue-600 mt-1">2 pending review</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+          <p class="text-xs text-slate-400 font-medium mb-1">Inquiries</p>
+          <p class="font-display font-700 text-3xl text-slate-900" data-dashboard-enquiries>0</p>
+          <p class="text-xs text-emerald-600 mt-1">↑ 8 this week</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+          <p class="text-xs text-slate-400 font-medium mb-1">Views / Leads</p>
+          <p class="font-display font-700 text-3xl text-slate-900" data-dashboard-views>0</p>
+          <p class="text-xs text-emerald-600 mt-1"><span data-dashboard-whatsapp-leads>0</span> WhatsApp leads</p>
+        </div>
+      </div>
+
+      <!-- Listings performance -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl border border-gray-100 p-6">
+            <h3 class="font-semibold text-slate-900 mb-5">Your listings</h3>
+            <div class="space-y-4" id="dashboard-listings">
+              <!-- injected by JS -->
+            </div>
+          </div>
+        </div>
+        <!-- Recent messages -->
+        <div>
+          <div class="bg-white rounded-2xl border border-gray-100 p-6 mb-4">
+            <h3 class="font-semibold text-slate-900 mb-4">Recent inquiries</h3>
+            <div class="space-y-3" id="dashboard-messages">
+              <!-- injected by JS -->
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-100 p-6">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <h3 class="font-semibold text-slate-900">Saved properties</h3>
+              <button onclick="showPage('favorites')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">View all</button>
+            </div>
+            <div class="space-y-3" id="dashboard-saved">
+              <!-- injected by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT PAGE ===== -->
+  <div id="page-about" class="page hidden min-h-screen bg-white">
+    <div class="relative bg-slate-900 text-white py-24 px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-display font-700 text-4xl sm:text-5xl mb-4">About RentFair Homes</h1>
+        <p class="text-slate-400 text-lg leading-relaxed">We're building Nigeria's most transparent, trustworthy, and accessible property marketplace — starting from Ekiti State.</p>
+      </div>
+    </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+        <div>
+          <h2 class="font-display font-700 text-2xl text-slate-900 mb-4">Our mission</h2>
+          <p class="text-slate-600 leading-relaxed mb-4">RentFair Homes was founded to solve a real problem in the Nigerian property market: lack of price transparency, fake listings, and the frustrating disconnect between renters/buyers and genuine property owners.</p>
+          <p class="text-slate-600 leading-relaxed">We believe every Nigerian deserves access to verified, fairly priced homes — without the stress, deception, or hidden costs that plague the current market.</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-8">
+          <h3 class="font-semibold text-slate-900 mb-4">Our values</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3"><span class="w-5 h-5 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-slate-600"><strong class="text-slate-900">Transparency</strong> — No hidden fees, no vague listings, no misleading photos.</span></li>
+            <li class="flex items-start gap-3"><span class="w-5 h-5 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-slate-600"><strong class="text-slate-900">Fairness</strong> — Price insights that empower renters and buyers.</span></li>
+            <li class="flex items-start gap-3"><span class="w-5 h-5 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-slate-600"><strong class="text-slate-900">Trust</strong> — Every listing verified before it goes live.</span></li>
+            <li class="flex items-start gap-3"><span class="w-5 h-5 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 mt-0.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-slate-600"><strong class="text-slate-900">Access</strong> — Connecting Nigerians with the right homes at fair prices.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 mb-16">
+        <div class="bg-emerald-50 rounded-2xl p-6 text-center">
+          <p class="font-display font-700 text-3xl text-emerald-600">2,400+</p>
+          <p class="text-sm text-slate-600 mt-1">Verified Listings</p>
+        </div>
+        <div class="bg-blue-50 rounded-2xl p-6 text-center">
+          <p class="font-display font-700 text-3xl text-blue-600">36</p>
+          <p class="text-sm text-slate-600 mt-1">States Covered</p>
+        </div>
+        <div class="bg-amber-50 rounded-2xl p-6 text-center">
+          <p class="font-display font-700 text-3xl text-amber-600">12k+</p>
+          <p class="text-sm text-slate-600 mt-1">Happy Users</p>
+        </div>
+        <div class="bg-slate-100 rounded-2xl p-6 text-center">
+          <p class="font-display font-700 text-3xl text-slate-700">98%</p>
+          <p class="text-sm text-slate-600 mt-1">Satisfaction Rate</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN PANEL ===== -->
+  <div id="page-admin" class="page hidden min-h-screen bg-slate-50">
+
+    <!-- Admin top bar -->
+    <div class="admin-topbar bg-slate-900 text-white flex items-center justify-between px-6 py-3 sticky top-16 z-40 border-b border-slate-700">
+      <div class="flex items-center gap-3">
+        <img src="static/rentfair/images/rentfair-logo.svg" alt="RentFair Admin" class="brand-logo brand-logo-dark w-8 h-8">
+        <span class="font-display font-700 text-sm">RentFair <span class="text-emerald-400">Admin</span></span>
+        <span class="text-slate-500 text-xs hidden sm:block">/ Platform Management</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="relative p-1.5 hover:bg-slate-800 rounded-lg transition-colors" onclick="showToast('3 new alerts')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5a5 5 0 00-5 5v3l-1 1.5h12l-1-1.5v-3a5 5 0 00-5-5z" stroke="white" stroke-width="1.2"/><path d="M6.5 13.5a1.5 1.5 0 003 0" stroke="white" stroke-width="1.2"/></svg>
+          <span class="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+        <div class="flex items-center gap-2 pl-3 border-l border-slate-700">
+          <div class="w-7 h-7 bg-emerald-600 rounded-full flex items-center justify-center text-xs font-bold">SA</div>
+          <div class="hidden sm:block">
+            <p class="text-xs font-medium">Super Admin</p>
+            <p class="text-xs text-slate-400">admin@rentfairhomes.ng</p>
+          </div>
+        </div>
+        <button onclick="showPage('home')" class="text-xs text-slate-400 hover:text-white transition-colors ml-2">← Exit</button>
+      </div>
+    </div>
+
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar w-56 shrink-0 bg-white border-r border-gray-100 min-h-screen pt-4 hidden lg:block">
+        <nav class="px-3 space-y-0.5" id="admin-sidenav">
+          <button onclick="setAdminTab('overview')" class="admin-nav-btn active w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="8" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="8" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg>
+            Overview
+          </button>
+          <button onclick="setAdminTab('listings')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h11M2 11h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Listings
+            <span data-admin-badge="listings" class="ml-auto bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span>
+          </button>
+          <button onclick="setAdminTab('users')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Users
+          </button>
+          <button onclick="setAdminTab('reports')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5v4M7.5 8v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.3"/></svg>
+            Messages
+            <span data-admin-badge="messages" class="ml-auto bg-red-100 text-red-600 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span>
+          </button>
+          <button onclick="setAdminTab('verification')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1L2 3.5V7c0 3.1 2.3 5.4 5.5 6 3.2-.6 5.5-2.9 5.5-6V3.5L7.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 7.5l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Verification
+            <span data-admin-badge="verification" class="ml-auto bg-blue-100 text-blue-600 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span>
+          </button>
+          <button onclick="setAdminTab('analytics')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 12l3-4 3 2 3-5 2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Analytics
+          </button>
+          <button onclick="setAdminTab('settings')" class="admin-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 1.5v1M7.5 12.5v1M1.5 7.5h1M12.5 7.5h1M3.3 3.3l.7.7M11 11l.7.7M3.3 11.7l.7-.7M11 4l.7-.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Settings
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main content -->
+      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8" id="admin-main">
+        <!-- Tab content injected by JS -->
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT PAGE ===== -->
+  <div id="page-contact" class="page hidden min-h-screen bg-slate-50 py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="font-display font-700 text-3xl text-slate-900">Get in touch</h1>
+        <p class="text-slate-500 mt-2">Have a question? We'd love to hear from you.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white rounded-2xl border border-gray-100 p-8">
+          <h2 class="font-semibold text-slate-900 mb-6">Send us a message</h2>
+          <div class="space-y-4" data-contact-form>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Full name</label>
+              <input type="text" data-contact-field="name" placeholder="Your name" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+              <input type="email" data-contact-field="email" placeholder="you@example.com" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Subject</label>
+              <select data-contact-field="subject" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+                <option>General enquiry</option><option>Report a listing</option><option>Partnership</option><option>Technical support</option><option>Verification</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">Message</label>
+              <textarea rows="4" data-contact-field="message" placeholder="Tell us how we can help..." class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"></textarea>
+            </div>
+            <button class="w-full btn-primary py-3" data-contact-submit onclick="submitContactMessage(this)">Send Message</button>
+          </div>
+        </div>
+        <div class="space-y-5">
+          <div class="bg-white rounded-2xl border border-gray-100 p-6 flex items-start gap-4">
+            <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h3l1.5 3.75-2 1.25a9 9 0 004.5 4.5L11.5 10.5 15 12v3a1.5 1.5 0 01-1.5 1.5A13.5 13.5 0 011.5 4.5 1.5 1.5 0 013 3z" stroke="#10B981" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <p class="font-medium text-slate-900 text-sm">Phone</p>
+              <p class="text-slate-500 text-sm mt-0.5">+234 800 000 0000</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-100 p-6 flex items-start gap-4">
+            <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h12a1.5 1.5 0 011.5 1.5v9A1.5 1.5 0 0115 15H3a1.5 1.5 0 01-1.5-1.5v-9A1.5 1.5 0 013 3z" stroke="#10B981" stroke-width="1.3"/><path d="M1.5 4.5L9 10.5l7.5-6" stroke="#10B981" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <p class="font-medium text-slate-900 text-sm">Email</p>
+              <p class="text-slate-500 text-sm mt-0.5">hello@rentfairhomes.ng</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-100 p-6 flex items-start gap-4">
+            <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a6 6 0 100 12A6 6 0 009 1.5zm0 0v12M1.5 9h12M2.5 5.25a10.5 10.5 0 0013 0M2.5 12.75a10.5 10.5 0 0013 0" stroke="#10B981" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <p class="font-medium text-slate-900 text-sm">Office</p>
+              <p class="text-slate-500 text-sm mt-0.5">Ado-Ekiti, Ekiti State, Nigeria</p>
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-6">
+            <p class="font-medium text-emerald-800 text-sm mb-1">WhatsApp Support</p>
+            <p class="text-emerald-700 text-sm">Chat with us on WhatsApp for quick assistance with listings, verification, or enquiries.</p>
+            <a href="https://wa.me/2348000000000" class="inline-flex items-center gap-2 mt-3 text-sm font-medium text-emerald-700 hover:text-emerald-800">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1l-.9 1.1c-.1.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.1.2-.3.2-.5 0-.1-.1-.4-.2-.6-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C7.6 7 7 7.7 7 9.2c0 1.4 1 2.8 1.2 3 .1.1 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.2.1-1.4-.1-.1-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.7 0-3.4-.5-4.8-1.3l-.4-.2-3 .8.8-2.9-.2-.4C3.5 15.2 3 13.6 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+              Open WhatsApp →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #app -->
+
+{% include "partials/scripts.html" %}
+
+</body>
+</html>
