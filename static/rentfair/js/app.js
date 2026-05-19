@@ -9,11 +9,22 @@ let currentPage = 'home';
 let currentListingTab = 'rent';
 let selectedPostCategory = 'Rent';
 let currentUser = null;
-const DEFAULT_LISTINGS = [...ALL_LISTINGS];
+const EMPTY_STATE_IMAGE = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500&q=80';
+const DEFAULT_LISTINGS = [];
+
+RENTALS = [];
+HOMES_FOR_SALE = [];
+LAND_LISTINGS = [];
+ALL_LISTINGS = [];
 
 // ── Routing ────────────────────────────────────────────────────────────────
 
-function showPage(page, tab) {
+function routeHash(page, tab) {
+  if (page === 'listings') return `#listings/${tab || currentListingTab || 'rent'}`;
+  return `#${page || 'home'}`;
+}
+
+function showPage(page, tab, options = {}) {
   closeMobileMenu();
 
   if (page === 'admin' && !canUseAdmin()) {
@@ -25,6 +36,12 @@ function showPage(page, tab) {
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.remove('hidden'); }
   currentPage = page;
+  if (!options.skipHash) {
+    const nextHash = routeHash(page, tab);
+    if (window.location.hash !== nextHash) {
+      history.pushState(null, '', nextHash);
+    }
+  }
   window.scrollTo(0, 0);
 
   if (page === 'listings') {
@@ -61,14 +78,38 @@ function showPropertyPage(id) {
     return false;
   }
   trackPropertyView(prop);
+  if (window.location.hash !== `#property/${prop.id}`) {
+    history.pushState(null, '', `#property/${prop.id}`);
+  }
   if (prop.type === 'land') {
     renderLandDetail(prop);
-    showPage('land');
+    showPage('land', null, { skipHash: true });
   } else {
     renderPropertyDetail(prop);
-    showPage('property');
+    showPage('property', null, { skipHash: true });
   }
   return false;
+}
+
+function routeFromHash() {
+  const hash = window.location.hash.replace(/^#/, '');
+  if (!hash || hash === 'home') {
+    showPage('home', null, { skipHash: true });
+    return;
+  }
+
+  const [page, value] = hash.split('/');
+  if (page === 'listings') {
+    showPage('listings', value || 'rent', { skipHash: true });
+    return;
+  }
+  if (page === 'property' && value) {
+    showPropertyPage(value);
+    return;
+  }
+
+  const validPages = new Set(['favorites', 'dashboard', 'sell', 'post', 'about', 'contact', 'login', 'admin']);
+  showPage(validPages.has(page) ? page : 'home', null, { skipHash: true });
 }
 
 async function trackPropertyView(prop) {
@@ -542,8 +583,8 @@ function normaliseApiListing(p) {
     saved: 0,
     isLive: true,
     furnished: 'Unspecified',
-    img: images[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500&q=80',
-    imgs: images.length ? images : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80'],
+    img: images[0] || EMPTY_STATE_IMAGE,
+    imgs: images.length ? images : [EMPTY_STATE_IMAGE],
     imgCaptions: imageCaptions,
     desc: p.description || '',
     amenities: p.features || [],
@@ -580,7 +621,6 @@ async function loadLiveListings() {
     if (!response.ok) return;
     const payload = await response.json();
     const liveListings = (payload.properties || []).map(normaliseApiListing);
-    if (!liveListings.length) return;
 
     RENTALS = liveListings.filter(p => p.type === 'rent');
     HOMES_FOR_SALE = liveListings.filter(p => p.type === 'buy');
@@ -1157,11 +1197,22 @@ function propCard(p, compact=false) {
 
 // ── Home page rendering ────────────────────────────────────────────────────
 
+function emptyListingsMessage(title, text, columns = 'sm:col-span-2 lg:col-span-3 xl:col-span-4') {
+  return `
+    <div class="${columns} rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+      <p class="font-semibold text-slate-700">${title}</p>
+      <p class="mt-1 text-sm text-slate-400">${text}</p>
+    </div>`;
+}
+
 function renderHome() {
-  // Featured listings (mix of all)
-  const featured = [...RENTALS.slice(0,2), ...HOMES_FOR_SALE.slice(0,2), LAND_LISTINGS[0], LAND_LISTINGS[1]];
+  const featured = ALL_LISTINGS.slice(0, 8);
   const fGrid = document.querySelector('#page-home .grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3.xl\\:grid-cols-4');
-  if (fGrid) fGrid.innerHTML = featured.map(p => propCard(p)).join('');
+  if (fGrid) {
+    fGrid.innerHTML = featured.length
+      ? featured.map(p => propCard(p)).join('')
+      : emptyListingsMessage('No live listings yet', 'Approved properties will appear here as soon as they are published.');
+  }
 
   // Ekiti area cards
   const aGrid = document.querySelector('#page-home .grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-6');
@@ -1176,11 +1227,19 @@ function renderHome() {
 
   // Homes for sale
   const hGrid = document.getElementById('homes-for-sale');
-  if (hGrid) hGrid.innerHTML = HOMES_FOR_SALE.map(p => propCard(p)).join('');
+  if (hGrid) {
+    hGrid.innerHTML = HOMES_FOR_SALE.length
+      ? HOMES_FOR_SALE.map(p => propCard(p)).join('')
+      : emptyListingsMessage('No homes for sale yet', 'Published sale listings will show here.', 'sm:col-span-2 lg:col-span-4');
+  }
 
   // Land listings
   const lGrid = document.getElementById('land-listings');
-  if (lGrid) lGrid.innerHTML = LAND_LISTINGS.slice(0,3).map(p => propCard(p)).join('');
+  if (lGrid) {
+    lGrid.innerHTML = LAND_LISTINGS.length
+      ? LAND_LISTINGS.slice(0,3).map(p => propCard(p)).join('')
+      : emptyListingsMessage('No land listings yet', 'Published land listings will show here.', 'sm:col-span-2 lg:col-span-3');
+  }
 }
 
 // ── Listing tabs ───────────────────────────────────────────────────────────
@@ -1385,13 +1444,14 @@ function renderListingsGrid(tab) {
   if (tab === 'rent') list = RENTALS;
   else if (tab === 'buy') list = HOMES_FOR_SALE;
   else list = LAND_LISTINGS;
+  const hasAnyListingsInTab = list.length > 0;
   list = applyListingFilters(list, tab);
   if (countEl) countEl.textContent = `Showing ${list.length} results`;
   renderListingsMap(list);
   grid.innerHTML = list.length ? list.map(p => propCard(p)).join('') : `
     <div class="sm:col-span-2 rounded-2xl border border-dashed border-slate-200 bg-white p-10 text-center">
-      <p class="font-semibold text-slate-700">No listings match these filters</p>
-      <p class="mt-1 text-sm text-slate-400">Try changing one or two filters.</p>
+      <p class="font-semibold text-slate-700">${hasAnyListingsInTab ? 'No listings match these filters' : 'No live listings yet'}</p>
+      <p class="mt-1 text-sm text-slate-400">${hasAnyListingsInTab ? 'Try changing one or two filters.' : 'Approved properties will appear here after admin review.'}</p>
     </div>`;
 }
 
@@ -2251,12 +2311,16 @@ function setMobileMenuOpen(isOpen) {
 // ── Init ───────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('click', event => {
+    const anchor = event.target.closest?.('a[href="#"][onclick]');
+    if (anchor) event.preventDefault();
+  }, true);
   document.addEventListener('click', handlePropertyCardClick);
   document.addEventListener('keydown', handlePropertyCardKeyboard);
-  renderHome();
   updateSavedBadges();
-  loadLiveListings();
+  loadLiveListings().finally(routeFromHash);
   loadAuthStatus();
+  window.addEventListener('hashchange', routeFromHash);
 
   // Navbar scroll effect
   const navbar = document.getElementById('navbar');
