@@ -1,7 +1,9 @@
 import json
+from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import (
@@ -270,6 +272,28 @@ class PropertySubmissionVerificationTests(RentFairAPITestCase):
             ['https://example.com/exterior.jpg', 'https://example.com/living-room.jpg'],
         )
 
+    @override_settings(TESTING=False)
+    @patch.dict('os.environ', {'CLOUDINARY_URL': 'cloudinary://key:secret@demo'})
+    @patch('core.views.cloudinary.uploader.upload')
+    def test_property_submission_uploads_media_to_cloudinary_when_configured(self, upload_mock):
+        upload_mock.return_value = {'secure_url': 'https://res.cloudinary.com/demo/image/upload/main.jpg'}
+        self.client.force_login(self.owner)
+        image = SimpleUploadedFile(
+            'main.jpg',
+            b'fake-image-bytes',
+            content_type='image/jpeg',
+        )
+        payload = self.property_submit_payload()
+        payload['main_image'] = image
+
+        response = self.client.post(reverse('property_submit_api'), data=payload)
+
+        self.assertEqual(response.status_code, 201)
+        property_obj = Property.objects.get(title='New Verification Listing')
+        self.assertEqual(property_obj.main_image_url, 'https://res.cloudinary.com/demo/image/upload/main.jpg')
+        self.assertFalse(property_obj.main_image)
+        upload_mock.assert_called_once()
+
     def test_property_submission_saves_full_address(self):
         self.client.force_login(self.owner)
 
@@ -292,6 +316,7 @@ class PropertyUrlTests(RentFairAPITestCase):
 
 
 class PropertyImageCaptionTests(RentFairAPITestCase):
+    @override_settings(DEBUG=True)
     def test_property_api_uses_relative_uploaded_main_image_url(self):
         property_obj = self.create_property()
         property_obj.main_image = 'properties/main/uploaded-main.jpg'
@@ -303,6 +328,19 @@ class PropertyImageCaptionTests(RentFairAPITestCase):
         listing = response.json()['properties'][0]
         self.assertEqual(listing['img'], '/media/properties/main/uploaded-main.jpg')
 
+    @override_settings(DEBUG=False)
+    def test_property_api_hides_local_media_urls_in_production(self):
+        property_obj = self.create_property()
+        property_obj.main_image = 'properties/main/uploaded-main.jpg'
+        property_obj.save(update_fields=['main_image'])
+
+        response = self.client.get(reverse('property_list_api'))
+
+        self.assertEqual(response.status_code, 200)
+        listing = response.json()['properties'][0]
+        self.assertEqual(listing['img'], '')
+
+    @override_settings(DEBUG=True)
     def test_property_api_uses_gallery_image_as_display_fallback(self):
         property_obj = self.create_property()
         PropertyImage.objects.create(

@@ -1,8 +1,10 @@
 import json
+import os
 import secrets
 import sys
 from datetime import timedelta
 
+import cloudinary.uploader
 from django.conf import settings
 from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth import authenticate, login, logout
@@ -76,6 +78,8 @@ def media_url(request, file_field, fallback=''):
         url = file_field.url
         if url.startswith(('http://', 'https://', '//')):
             return url
+        if url.startswith(settings.MEDIA_URL) and not settings.DEBUG:
+            return fallback
         return url
     return fallback
 
@@ -163,7 +167,7 @@ def owner_trust_payload(property_obj):
     }
     owner_badge = role_badges.get(role, 'Verified contact') if owner_verified else ''
     listing_verified = property_obj.verification_status == Property.VerificationStatus.VERIFIED
-    document_checked = bool(property_obj.verification_document and listing_verified)
+    document_checked = bool((property_obj.verification_document or property_obj.verification_document_url) and listing_verified)
 
     badges = []
     if owner_badge:
@@ -211,7 +215,7 @@ def property_api_payload(request, property_obj, settings_obj=None):
             for feature in property_obj.features.splitlines()
             if feature.strip()
         ],
-        'docs': ['Verification document'] if property_obj.verification_document else [],
+        'docs': ['Verification document'] if property_obj.verification_document or property_obj.verification_document_url else [],
         'trust': trust,
         'fairLabel': fair_price['label'],
         'fairInsight': fair_price['insight'],
@@ -330,6 +334,39 @@ def validate_verification_document(document):
         return 'Please upload a PDF, JPG, PNG, or WEBP document.'
 
     return ''
+
+
+def should_upload_media_to_cloudinary():
+    cloudinary_url = os.getenv('CLOUDINARY_URL', '').strip()
+    return (
+        bool(cloudinary_url)
+        and cloudinary_url.startswith('cloudinary://')
+        and not settings.TESTING
+    )
+
+
+def upload_media_to_cloudinary(uploaded_file, folder, resource_type='image'):
+    if not uploaded_file:
+        return ''
+
+    if not should_upload_media_to_cloudinary():
+        return ''
+
+    if hasattr(uploaded_file, 'seekable') and uploaded_file.seekable():
+        uploaded_file.seek(0)
+
+    result = cloudinary.uploader.upload(
+        uploaded_file,
+        folder=folder,
+        resource_type=resource_type,
+        use_filename=True,
+        unique_filename=True,
+        overwrite=False,
+    )
+    url = result.get('secure_url') or result.get('url') or ''
+    if not url:
+        raise ValueError('Cloudinary upload did not return a URL.')
+    return url
 
 
 def payload_list(payload, key):
@@ -473,6 +510,38 @@ def property_submit_api(request):
     price_suffix = '/year' if listing_type == Property.ListingType.RENT else ''
     gallery_image_urls = clean_gallery_image_urls(payload)
     auto_approve = should_auto_approve_listing(settings_obj, request.user, payload, main_image, gallery_images)
+    uploaded_main_image_url = ''
+    uploaded_gallery_image_urls = []
+    uploaded_verification_document_url = ''
+
+    if should_upload_media_to_cloudinary():
+        try:
+            uploaded_main_image_url = upload_media_to_cloudinary(
+                main_image,
+                'rentfair/properties/main',
+                resource_type='image',
+            )
+            uploaded_gallery_image_urls = [
+                upload_media_to_cloudinary(
+                    image_file,
+                    'rentfair/properties/gallery',
+                    resource_type='image',
+                )
+                for image_file in gallery_images
+            ]
+            uploaded_gallery_image_urls = [url for url in uploaded_gallery_image_urls if url]
+            uploaded_verification_document_url = upload_media_to_cloudinary(
+                verification_document,
+                'rentfair/properties/documents',
+                resource_type='auto',
+            )
+        except Exception:
+            return JsonResponse({'error': 'Could not upload media. Please try again.'}, status=502)
+
+        main_image = None if uploaded_main_image_url else main_image
+        gallery_images = [] if uploaded_gallery_image_urls else gallery_images
+        verification_document = None if uploaded_verification_document_url else verification_document
+
     initial_verification_status = (
         Property.VerificationStatus.VERIFIED
         if auto_approve
@@ -497,8 +566,9 @@ def property_submit_api(request):
             description=str(payload['description']).strip(),
             features='\n'.join(payload.getlist('features') if is_upload else payload.get('features', [])),
             main_image=main_image,
-            main_image_url=str(payload.get('main_image_url', '')).strip(),
+            main_image_url=uploaded_main_image_url or str(payload.get('main_image_url', '')).strip(),
             verification_document=verification_document,
+            verification_document_url=uploaded_verification_document_url,
             owner=request.user,
             owner_name=str(payload['owner_name']).strip(),
             owner_phone=str(payload['owner_phone']).strip(),
@@ -519,7 +589,7 @@ def property_submit_api(request):
         )
 
     url_sort_offset = len(gallery_images)
-    for index, image_url in enumerate(gallery_image_urls):
+    for index, image_url in enumerate([*uploaded_gallery_image_urls, *gallery_image_urls]):
         PropertyImage.objects.create(
             property=property_obj,
             image_url=image_url,
@@ -870,13 +940,18 @@ def admin_property_payload(property_obj, request=None):
         'reviewNote': property_obj.review_note,
         'area': str(property_obj.area),
         'documentUrl': (
-            media_url(request, property_obj.verification_document)
-            if request and property_obj.verification_document
-            else ''
+            property_obj.verification_document_url
+            or (
+                media_url(request, property_obj.verification_document)
+                if request and property_obj.verification_document
+                else ''
+            )
         ),
         'documentName': (
             property_obj.verification_document.name.rsplit('/', 1)[-1]
             if property_obj.verification_document
+            else property_obj.verification_document_url.rsplit('/', 1)[-1]
+            if property_obj.verification_document_url
             else ''
         ),
     }
@@ -943,9 +1018,12 @@ def admin_listing_report_payload(report, request=None):
         'resolvedBy': resolved_by,
         'resolvedAt': report.resolved_at.strftime('%d %b %Y, %I:%M%p') if report.resolved_at else '',
         'documentUrl': (
-            media_url(request, report.property.verification_document)
-            if request and report.property.verification_document
-            else ''
+            report.property.verification_document_url
+            or (
+                media_url(request, report.property.verification_document)
+                if request and report.property.verification_document
+                else ''
+            )
         ),
     }
 

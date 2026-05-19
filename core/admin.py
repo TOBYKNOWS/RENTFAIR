@@ -92,7 +92,7 @@ class PropertyAdmin(admin.ModelAdmin):
             )
         }),
         ('Media', {
-            'fields': ('main_image', 'main_image_url', 'verification_document')
+            'fields': ('main_image', 'main_image_url', 'verification_document', 'verification_document_url')
         }),
         ('Owner contact', {
             'fields': ('owner', 'owner_name', 'owner_phone', 'owner_whatsapp', 'owner_email')

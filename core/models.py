@@ -121,6 +121,7 @@ class Property(TimeStampedModel):
     main_image = models.FileField(upload_to='properties/main/', blank=True)
     main_image_url = models.URLField(blank=True)
     verification_document = models.FileField(upload_to='properties/documents/', blank=True)
+    verification_document_url = models.URLField(blank=True)
     owner = models.ForeignKey(
         'auth.User',
         on_delete=models.SET_NULL,
