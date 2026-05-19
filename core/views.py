@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import secrets
 import sys
@@ -32,6 +33,8 @@ from .models import (
     PropertyImage,
     UserProfile,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def staff_required_json(request):
@@ -536,6 +539,7 @@ def property_submit_api(request):
                 resource_type='auto',
             )
         except Exception:
+            logger.exception('Cloudinary media upload failed while submitting property listing.')
             return JsonResponse({'error': 'Could not upload media. Please try again.'}, status=502)
 
         main_image = None if uploaded_main_image_url else main_image

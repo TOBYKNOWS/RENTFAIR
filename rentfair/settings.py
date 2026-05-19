@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
+import cloudinary
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -214,6 +216,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', '').strip()
+if CLOUDINARY_URL:
+    parsed_cloudinary_url = urlparse(CLOUDINARY_URL)
+    if parsed_cloudinary_url.scheme != 'cloudinary':
+        raise ValueError("Invalid CLOUDINARY_URL scheme. Expected 'cloudinary://'.")
+
+    cloudinary.config(
+        cloud_name=parsed_cloudinary_url.hostname,
+        api_key=unquote(parsed_cloudinary_url.username or ''),
+        api_secret=unquote(parsed_cloudinary_url.password or ''),
+        secure=True,
+    )
 
 STORAGES = {
     "default": {
