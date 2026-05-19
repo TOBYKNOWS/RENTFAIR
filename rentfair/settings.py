@@ -93,7 +93,7 @@ CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS')
 
 # Application definition
 
-USE_CLOUDINARY = env_bool('USE_CLOUDINARY', bool(os.getenv('CLOUDINARY_URL')))
+
 
 INSTALLED_APPS = [
     'core',
@@ -104,13 +104,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
 ]
 
-if USE_CLOUDINARY:
-    INSTALLED_APPS += ['cloudinary_storage']
 
-INSTALLED_APPS += ['django.contrib.staticfiles']
 
-if USE_CLOUDINARY:
-    INSTALLED_APPS += ['cloudinary']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -209,6 +204,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# CLOUDINARY / STATIC FILES CONFIG
+
+INSTALLED_APPS += [
+    'cloudinary',
+]
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -217,20 +218,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 STORAGES = {
-    'default': {
-        'BACKEND': (
-            'cloudinary_storage.storage.MediaCloudinaryStorage'
-            if USE_CLOUDINARY
-            else 'django.core.files.storage.FileSystemStorage'
-        ),
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
 
-    'staticfiles': {
-        'BACKEND': (
-            'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-            if USE_CLOUDINARY
-            else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-        ),
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
