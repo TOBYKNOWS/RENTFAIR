@@ -224,11 +224,15 @@ STORAGES = {
             else 'django.core.files.storage.FileSystemStorage'
         ),
     },
+
     'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        'BACKEND': (
+            'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+            if USE_CLOUDINARY
+            else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+        ),
     },
 }
-
 
 # Production security. Set DEBUG=True locally to disable these browser-facing
 # HTTPS requirements during local development.
