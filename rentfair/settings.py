@@ -102,14 +102,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 ]
 
 if USE_CLOUDINARY:
-    INSTALLED_APPS += [
-        'cloudinary',
-        'cloudinary_storage',
-    ]
+    INSTALLED_APPS += ['cloudinary_storage']
+
+INSTALLED_APPS += ['django.contrib.staticfiles']
+
+if USE_CLOUDINARY:
+    INSTALLED_APPS += ['cloudinary']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

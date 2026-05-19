@@ -73,7 +73,10 @@ def property_detail(request, slug):
 
 def media_url(request, file_field, fallback=''):
     if file_field:
-        return request.build_absolute_uri(file_field.url)
+        url = file_field.url
+        if url.startswith(('http://', 'https://', '//')):
+            return url
+        return url
     return fallback
 
 
@@ -215,7 +218,7 @@ def property_api_payload(request, property_obj, settings_obj=None):
         'verified': property_obj.verification_status == Property.VerificationStatus.VERIFIED,
         'featured': property_obj.is_featured,
         'views': property_obj.view_count if settings_obj.show_view_counts_publicly else None,
-        'img': property_main_image_url(request, property_obj),
+        'img': property_display_image_url(request, property_obj),
         'images': [item['url'] for item in gallery_items],
         'imageItems': gallery_items,
         'owner': {

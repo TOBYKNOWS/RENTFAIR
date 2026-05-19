@@ -292,6 +292,30 @@ class PropertyUrlTests(RentFairAPITestCase):
 
 
 class PropertyImageCaptionTests(RentFairAPITestCase):
+    def test_property_api_uses_relative_uploaded_main_image_url(self):
+        property_obj = self.create_property()
+        property_obj.main_image = 'properties/main/uploaded-main.jpg'
+        property_obj.save(update_fields=['main_image'])
+
+        response = self.client.get(reverse('property_list_api'))
+
+        self.assertEqual(response.status_code, 200)
+        listing = response.json()['properties'][0]
+        self.assertEqual(listing['img'], '/media/properties/main/uploaded-main.jpg')
+
+    def test_property_api_uses_gallery_image_as_display_fallback(self):
+        property_obj = self.create_property()
+        PropertyImage.objects.create(
+            property=property_obj,
+            image='properties/gallery/fallback-gallery.jpg',
+        )
+
+        response = self.client.get(reverse('property_list_api'))
+
+        self.assertEqual(response.status_code, 200)
+        listing = response.json()['properties'][0]
+        self.assertEqual(listing['img'], '/media/properties/gallery/fallback-gallery.jpg')
+
     def test_property_api_includes_gallery_image_captions(self):
         property_obj = self.create_property()
         PropertyImage.objects.create(
