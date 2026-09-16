@@ -1,5 +1,5 @@
-﻿/* ============================================
-   RentFair Homes — frontend module
+/* ============================================
+   RentFair Homes  frontend module
    ============================================ */
 
 // Public site interactions and rendering.

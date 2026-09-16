@@ -1,5 +1,5 @@
-﻿/* ============================================
-   RentFair Homes — frontend module
+/* ============================================
+   RentFair Homes  frontend module
    ============================================ */
 
 // Admin dashboard interactions and rendering.

@@ -1,5 +1,5 @@
-﻿/* ============================================
-   RentFair Homes — frontend module
+/* ============================================
+   RentFair Homes  frontend module
    ============================================ */
 
 // Mock listing and admin data. Replace this with API-provided data when Django is ready.
